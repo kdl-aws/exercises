@@ -2,7 +2,11 @@ package exercisethree;
 
 import java.util.ArrayList;
 
-public class BookRentalSystem {
+public final class BookRentalSystem {
+    private BookRentalSystem() {
+        super();
+    }
+
     /**
      * Contains the current library of books.
      */
@@ -15,8 +19,6 @@ public class BookRentalSystem {
     public static ArrayList<Book> getLibrary() {
         return library;
     }
-    
-    
 
     /**
      * Removes all books in the library.
@@ -53,6 +55,14 @@ public class BookRentalSystem {
     }
 
     /**
+     * Rents a book from the library.
+     * @param bookNumber : the library index of the book
+     */
+    public static void rentBooks(final int bookNumber) {
+        library.get(bookNumber).rent();
+    }
+
+    /**
      * Displays currently rented books.
      */
     public static void displayRentedBooks() {
@@ -71,10 +81,13 @@ public class BookRentalSystem {
      */
     public static void main(final String[] args) {
         final int tlotrYear = 1954;
+        final int tkamYear = 1960;
         final int tppYear = 2000;
         final int ggasYear = 1997;
         BookRentalSystem.addBook(new FictionBook("The Lord of the Rings",
                 "J.R.R. Tolkien", tlotrYear));
+        BookRentalSystem.addBook(new FictionBook("To Kill a Mockingbird",
+                "Harper Lee", tkamYear));
         BookRentalSystem.addBook(new NonFictionBook("The Tipping Point",
                 "M. Gladwell", tppYear));
         BookRentalSystem.addBook(new NonFictionBook("Guns, Germs, and Steel",
@@ -83,6 +96,8 @@ public class BookRentalSystem {
         BookRentalSystem.displayAllBooks();
         System.out.println();
         System.out.println();
+        BookRentalSystem.rentBooks(0);
+        BookRentalSystem.rentBooks(2);
         BookRentalSystem.displayRentedBooks();
     }
 

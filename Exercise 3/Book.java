@@ -94,7 +94,7 @@ public class Book {
     public void rent() {
         setRented(true);
     }
-    
+
     /**
      * Displays details of the current book.
      */

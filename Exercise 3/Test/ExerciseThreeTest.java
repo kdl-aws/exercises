@@ -79,13 +79,14 @@ class ExerciseThreeTest {
     @DisplayName("Rent Book")
     @Test
     void testRent_CheckIfRentalStatusBecomesTrue_RentedIsTrue() {
-
-        Book book = new NonFictionBook("The Tipping Point",
-                "M. Gladwell", 2000);
+        BookRentalSystem.addBook(new NonFictionBook("The Tipping Point",
+                "M. Gladwell", 2000));
+        BookRentalSystem.addBook(new FictionBook("To Kill a Mockingbird", 
+                "Harper Lee", 1960));
         
-        book.rent();
+        BookRentalSystem.rentBooks(1);
         
-        assertTrue(book.isRented(), "Should return true.");
+        assertTrue(BookRentalSystem.getLibrary().get(1).isRented(), "Should return true.");
     }
 
     @DisplayName("Add Book")
@@ -106,10 +107,13 @@ class ExerciseThreeTest {
                 "M. Gladwell", 2000));
         BookRentalSystem.addBook(new FictionBook("All Your Perfects",
                 "Colleen Hoover", 2018));
+        String expectedExceptionMsg = "Index 3 out of bounds for length 2";
         
-        assertThrows(IndexOutOfBoundsException.class, () -> {
+        
+        IndexOutOfBoundsException actualExceptionMsg = assertThrows(IndexOutOfBoundsException.class, () -> {
             BookRentalSystem.getLibrary().get(3).rent();
         });
+        assertEquals(expectedExceptionMsg, actualExceptionMsg.getMessage(), "Unexpected exception message");
     }
     @DisplayName("Display All Books")
     @Test
@@ -118,14 +122,14 @@ class ExerciseThreeTest {
                 "M. Gladwell", 2000));
         BookRentalSystem.addBook(new FictionBook("All Your Perfects",
                 "Colleen Hoover", 2018));
-        BookRentalSystem.addBook(new FictionBook("The Lord of the Rings",
-                "J.R.R. Tolkien", 1954));
+        BookRentalSystem.addBook(new FictionBook("To Kill a Mockingbird", 
+                "Harper Lee", 1960));
         BookRentalSystem.displayAllBooks();
         
         String output = outContent.toString(); 
-        assertTrue(output.contains("The Tipping Point"));
-        assertTrue(output.contains("Colleen Hoover"));
-        assertTrue(output.contains("1954"));
+        assertTrue(output.contains("The Tipping Point                                   M. Gladwell                     2000"));
+        assertTrue(output.contains("All Your Perfects                                   Colleen Hoover                  2018"));
+        assertTrue(output.contains("To Kill a Mockingbird                               Harper Lee                      1960"));
     }
     
     @DisplayName("Display Rented Books")
